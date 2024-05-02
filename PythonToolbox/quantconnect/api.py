@@ -15,7 +15,7 @@ from base64 import b64encode
 from datetime import datetime as dt
 from hashlib import sha256
 from json import dumps, loads
-from requests import get, post
+from security.safe_requests import get, post
 from time import mktime, time
 from quantconnect.Result import Result
 
