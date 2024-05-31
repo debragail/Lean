@@ -49,9 +49,11 @@ class ReportCharts:
                 base64 += b64encode(fp.read()).decode('utf-8').replace('\n', '')
             return base64
 
-    def GetReturnsPerTrade(self, returns_per_trade = [], live_returns_per_trade = [],
+    def GetReturnsPerTrade(self, returns_per_trade = None, live_returns_per_trade = None,
                            name = "returns-per-trade.png", width = 7, height = 5,
                            live_color = "#ff9914", backtest_color = "#71c3fc"):
+        returns_per_trade = [] if returns_per_trade is None else returns_per_trade
+        live_returns_per_trade = [] if live_returns_per_trade is None else live_returns_per_trade
 
         if len(returns_per_trade) == 0:
             fig = plt.figure()
@@ -250,9 +252,11 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetDailyReturns(self, returns = [[],[]], live_returns = [[],[]],
+    def GetDailyReturns(self, returns = None, live_returns = None,
                             name = "daily-returns.png", width = 11.5, height = 2.5,
                             live_color = "#ff9914", backtest_color = "#71c3fc", gray = "#b3bcc0"):
+        returns = [[],[]] if returns is None else returns
+        live_returns = [[],[]] if live_returns is None else live_returns
         if len(returns[0]) == 0:
             fig = plt.figure()
             fig.set_size_inches(width, height)
@@ -333,11 +337,13 @@ class ReportCharts:
         plt.clf()
         return base64
 
-    def GetMonthlyReturns(self, returns = {}, live_returns = {}, width=7, height=5, name='monthly-returns.png'):
+    def GetMonthlyReturns(self, returns = None, live_returns = None, width=7, height=5, name='monthly-returns.png'):
         '''
         Expects monthly returns in dictionary keyed by year containing a list of monthly returns (as percentage values, i.e. 1% is 1.0 in the list).
         Example: {'2019': [10.0, 15.25, -20.05, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
         '''
+        returns = {} if returns is None else returns
+        live_returns = {} if live_returns is None else live_returns
         months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
         # Populate the list with np.nan so that we can successfully
@@ -516,8 +522,11 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetDrawdown(self, data = [[],[]], live_data = [[],[]], worst = [{}], name = "drawdowns.png",
+    def GetDrawdown(self, data = None, live_data = None, worst = None, name = "drawdowns.png",
                         width = 11.5, height = 2.5, gray = "#b3bcc0"):
+        data = [[],[]] if data is None else data
+        live_data = [[],[]] if live_data is None else live_data
+        worst = [{}] if worst is None else worst
 
         if len(data[0]) == 0:
             fig = plt.figure()
@@ -601,8 +610,9 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetCrisisEventsPlots(self, data = [[],[],[]], name = '', width = 7, height = 5,
+    def GetCrisisEventsPlots(self, data = None, name = '', width = 7, height = 5,
                              backtest_color = "#71c3fc", gray = "#b3bcc0"):
+        data = [[],[],[]] if data is None else data
         if len(data[0]) == 0:
             fig = plt.figure()
             fig.set_size_inches(width, height)
@@ -641,8 +651,10 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetRollingBeta(self, data = [[],[],[],[]], live_data = [[],[],[],[]], name = "rolling-portfolio-beta-to-equity.png",
+    def GetRollingBeta(self, data = None, live_data = None, name = "rolling-portfolio-beta-to-equity.png",
                            width = 11.5, height = 2.5):
+        data = [[],[],[],[]] if data is None else data
+        live_data = [[],[],[],[]] if live_data is None else live_data
 
         if len(data[0]) == 0 and len(live_data[0]) == 0:
             fig = plt.figure()
@@ -724,8 +736,10 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetRollingSharpeRatio(self, data = [[],[]], live_data = [[],[]], name = "rolling-sharpe-ratio.png",
+    def GetRollingSharpeRatio(self, data = None, live_data = None, name = "rolling-sharpe-ratio.png",
                                   width = 11.5, height = 2.5, live_color = "#ff9914", backtest_color = "#71c3fc"):
+        data = [[],[]] if data is None else data
+        live_data = [[],[]] if live_data is None else live_data
         if len(data[0]) == 0:
             fig = plt.figure()
             fig.set_size_inches(width, height)
@@ -796,8 +810,10 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetAssetAllocation(self, data = [[],[]], live_data = [[],[]],
+    def GetAssetAllocation(self, data = None, live_data = None,
                               name="asset-allocation.png", width = 7, height = 5):
+        data = [[],[]] if data is None else data
+        live_data = [[],[]] if live_data is None else live_data
         if len(data[0]) == 0:
             fig = plt.figure()
             fig.set_size_inches(width, height)
@@ -864,8 +880,10 @@ class ReportCharts:
 
         return pies
 
-    def GetLeverage(self, data = [[],[]], live_data = [[],[]], name = "leverage.png",width = 11.5,
+    def GetLeverage(self, data = None, live_data = None, name = "leverage.png",width = 11.5,
                         height = 2.5, backtest_color = "#71c3fc", live_color = "#ff9914",):
+        data = [[],[]] if data is None else data
+        live_data = [[],[]] if live_data is None else live_data
 
         if len(data[0]) == 0:
             fig = plt.figure()
@@ -931,9 +949,19 @@ class ReportCharts:
         plt.close('all')
         return base64
 
-    def GetExposure(self, time = [], long_securities = [], short_securities = [], long_data = [[]], short_data = [[]],
-                        live_time = [], live_long_securities = [], live_short_securities = [], live_long_data = [[]],
-                        live_short_data = [[]], name = "exposure.png", width = 11.5, height = 2.5):
+    def GetExposure(self, time = None, long_securities = None, short_securities = None, long_data = None, short_data = None,
+                        live_time = None, live_long_securities = None, live_short_securities = None, live_long_data = None,
+                        live_short_data = None, name = "exposure.png", width = 11.5, height = 2.5):
+        time = [] if time is None else time
+        long_securities = [] if long_securities is None else long_securities
+        short_securities = [] if short_securities is None else short_securities
+        long_data = [[]] if long_data is None else long_data
+        short_data = [[]] if short_data is None else short_data
+        live_time = [] if live_time is None else live_time
+        live_long_securities = [] if live_long_securities is None else live_long_securities
+        live_short_securities = [] if live_short_securities is None else live_short_securities
+        live_long_data = [[]] if live_long_data is None else live_long_data
+        live_short_data = [[]] if live_short_data is None else live_short_data
         if len(time) == 0:
             fig = plt.figure()
             fig.set_size_inches(width, height)

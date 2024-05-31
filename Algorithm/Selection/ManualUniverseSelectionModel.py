@@ -28,7 +28,8 @@ from itertools import groupby
 class ManualUniverseSelectionModel(UniverseSelectionModel):
     '''Provides an implementation of IUniverseSelectionModel that simply subscribes to the specified set of symbols'''
 
-    def __init__(self, symbols = list(), universeSettings = None, securityInitializer = None):
+    def __init__(self, symbols = None, universeSettings = None, securityInitializer = None):
+        symbols = [] if symbols is None else symbols
         self.MarketHours = MarketHoursDatabase.FromDataFolder()
         self.symbols = symbols
         self.universeSettings = universeSettings

@@ -36,13 +36,14 @@ class Api:
         self.__token = token
         self.__debug = debug
 
-    def Execute(self, endpoint, data = None, is_post = False, headers = {}):
+    def Execute(self, endpoint, data = None, is_post = False, headers = None):
         '''Execute an authenticated request to the QuantConnect API
         Args:
             endpoint(str): Request end point.
             data(dict): Request values
             is_post(boolean): True if POST request, GET request otherwise
             headers(dict): Additional headers'''
+        headers = {} if headers is None else headers
         url = self.__url + endpoint
 
         # Create authenticated timestamped token.
