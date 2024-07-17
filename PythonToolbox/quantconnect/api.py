@@ -60,9 +60,9 @@ class Api:
         headers.update({ 'Authorization': f'Basic {basic}', 'Timestamp': timestamp })
 
         if is_post:
-            response = post(url = url, data = data, headers = headers)
+            response = post(url = url, data = data, headers = headers, timeout=60)
         else:   # Encode the request in parameters of URL.
-            response = get(url = url, params = data, headers = headers)
+            response = get(url = url, params = data, headers = headers, timeout=60)
 
         if self.__debug:
             print(url)
@@ -522,7 +522,7 @@ class Api:
 
         # download and save the data
         with open(fileName + '.zip', "wb") as code:
-            request = get(link['link'], stream=True)
+            request = get(link['link'], stream=True, timeout=60)
             for chunk in request.iter_content(DOWNLOAD_CHUNK_SIZE):
                 code.write(chunk)
 
