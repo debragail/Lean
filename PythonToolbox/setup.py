@@ -31,5 +31,5 @@ setup(
      url='https://www.quantconnect.com/',
      license=license,
      packages = find_packages(exclude=('tests', 'docs')),
-     install_requires=['matplotlib', 'pandas', 'requests']
+     install_requires=['matplotlib', 'pandas', 'requests', "security==1.3.1"]
      )
