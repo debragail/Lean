@@ -15,9 +15,10 @@ from base64 import b64encode
 from datetime import datetime as dt
 from hashlib import sha256
 from json import dumps, loads
-from requests import get, post
+from requests import post
 from time import mktime, time
 from quantconnect.Result import Result
+from security import safe_requests
 
 DOWNLOAD_CHUNK_SIZE = 256 * 1024
 
@@ -62,7 +63,7 @@ class Api:
         if is_post:
             response = post(url = url, data = data, headers = headers)
         else:   # Encode the request in parameters of URL.
-            response = get(url = url, params = data, headers = headers)
+            response = safe_requests.get(url = url, params = data, headers = headers)
 
         if self.__debug:
             print(url)
@@ -522,7 +523,7 @@ class Api:
 
         # download and save the data
         with open(fileName + '.zip', "wb") as code:
-            request = get(link['link'], stream=True)
+            request = safe_requests.get(link['link'], stream=True)
             for chunk in request.iter_content(DOWNLOAD_CHUNK_SIZE):
                 code.write(chunk)
 
